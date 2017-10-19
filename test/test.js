@@ -17,12 +17,17 @@ describe('test', function () {
   let server, client;
 
   before(() => {
+
+    // Bug fix :
+    // const addr = '0.0.0.0:' + (50000 + (Math.random() * 10000 | 0));
+    const addr = '0.0.0.0:50000';
+
     server = new grpc.Server();
     server.addService(proto.helloworld.Greeter.service, methods);
-    server.bind('0.0.0.0:50000', grpc.ServerCredentials.createInsecure());
+    server.bind(addr, grpc.ServerCredentials.createInsecure());
     server.start();
 
-    client = new proto.helloworld.Greeter('0.0.0.0:50000', grpc.credentials.createInsecure());
+    client = new proto.helloworld.Greeter(addr, grpc.credentials.createInsecure());
 
   });
 
