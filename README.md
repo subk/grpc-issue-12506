@@ -3,6 +3,34 @@ grpc #12506
 
 https://github.com/grpc/grpc/issues/12506
 
+### Update
+
+After upgrading to grpc 1.8.0, error is no longer triggered, a HTTP2 GOAWAY is now sent by the server :
+```bash
+test
+  ✓ should trigger some policy error        # first run, no bug
+
+1 passing (42ms)
+
+test
+  ✓ should trigger some policy error        # first refresh, no bug
+
+1 passing (8ms)
+
+test
+  1) should trigger some policy error       # Third run, got HTTP2 GOAWAY
+
+0 passing (7ms)
+1 failing
+
+1) test
+     should trigger some policy error:
+   Uncaught AssertionError: expected [Error: GOAWAY received] to be null
+    at Object.client.sayHello [as callback] (test/test.js:40:24)
+    at node_modules/grpc/src/client.js:557:12
+```
+
+
 ### Trigger "the load balancing policy" error
 
 ```bash
